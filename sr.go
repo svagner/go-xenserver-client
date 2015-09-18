@@ -2,7 +2,8 @@ package client
 
 import (
 	"fmt"
-	"github.com/nilshell/xmlrpc"
+
+	"github.com/svagner/xmlrpc"
 )
 
 type SR XenAPIObject

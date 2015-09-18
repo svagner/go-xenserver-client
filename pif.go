@@ -1,7 +1,7 @@
 package client
 
 import (
-	"github.com/nilshell/xmlrpc"
+	"github.com/svagner/xmlrpc"
 )
 
 type PIF XenAPIObject

@@ -2,8 +2,9 @@ package client
 
 import (
 	"fmt"
-	"github.com/nilshell/xmlrpc"
 	"strconv"
+
+	"github.com/svagner/xmlrpc"
 )
 
 type VM XenAPIObject
@@ -45,6 +46,16 @@ func (self *VM) Snapshot(label string) (snapshot *VM, err error) {
 	snapshot.Ref = result.Value.(string)
 	snapshot.Client = self.Client
 	return
+}
+
+func (self *VM) GetName() (label string, err error) {
+	result := APIResult{}
+	err = self.Client.APICall(&result, "VM.get_name_label", self.Ref)
+	if err != nil {
+		return "", err
+	}
+	label = result.Value.(string)
+	return label, nil
 }
 
 func (self *VM) Provision() (err error) {
@@ -149,6 +160,15 @@ func (self *VM) GetHVMBootPolicy() (bootOrder string, err error) {
 	}
 
 	return bootOrder, nil
+}
+
+func (self *VM) SetTemplateAsVM(value bool) (err error) {
+	result := APIResult{}
+	err = self.Client.APICall(&result, "VM.set_is_a_template", self.Ref, value)
+	if err != nil {
+		return err
+	}
+	return
 }
 
 func (self *VM) SetHVMBoot(policy, bootOrder string) (err error) {
